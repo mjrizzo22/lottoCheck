@@ -41,23 +41,28 @@ def getSingleGame():
 
 def getMatches(x, y):
     matches = {k: x[k] for k in x if k in y and x[k] == y[k]}
-    return matches
+    l = len(matches)
+
+    if 5 in matches:
+        return (l-1, 1)
+
+    return (l, 0)
 
 def printWin(m):
-    l = len(m)
+    strings = {(0, 1):"Matched the Jackpot ball", 
+        (1, 1): "Matched 1 regular ball and the Jackpot ball",
+        (2, 1): "Matched 2 regular balls and the Jackpot ball",
+        (3, 1): "Matched 3 regular balls and the Jackpot ball",
+        (4, 1): "Matched 4 regular balls and the Jackpot ball",
+        (5, 1): "JACKPOT", 
+        (0, 0): "Not a winner, sorry!",
+        (1, 0): "Not a winner, sorry!",
+        (2, 0): "Not a winner, sorry!",
+        (3, 0): "Matched 3 regular balls",
+        (4, 0): "Matched 4 regular balls",
+        (5, 0): "Matched 5 regular balls"}
 
-    if l == 0:
-        Print("Not a winner, sorry!")
-    elif l == 6:
-        Print("JACKPOT")
-
-    output = ""
-    if 5 in m:
-        output = " And the Jackpot Number!"
-        l = l - 1 
-    output = "You matched "+str(l)+" regular numbers!"+output
-    
-    print(output)
+    print(strings[m])
 
 def checkSingle():
     print("Check a single game:\n")
@@ -72,7 +77,12 @@ def checkSingle():
     printWin(matches)
 
 def checkSheet():
-    return 0
+    # get path
+    # get lines
+    # for loop
+        # load game
+        # getMatches
+        # printWin
 
 if __name__ == "__main__":
     print("Check if you are a winner!\n")     
