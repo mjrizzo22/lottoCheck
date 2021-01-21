@@ -4,6 +4,7 @@
 
 # Assumes games are 5 regular numbers from 1-70
 # Jackpot numbers is 1 integer from 1-26
+import os
 import distutils
 from distutils import util
 
@@ -31,13 +32,13 @@ def valid_game_input(x):
     return game_num
 
 def getSingleGame():
-    x = {}
+    game = {}
     print("First, regular numbers, 1-70:")
     for i in range(5):
-        x[i] = valid_game_input(70)
+        game[i] = valid_game_input(70)
     print("Second, the jackpot number, 1-26:")
-    x[5] = valid_game_input(26)
-    return x
+    game[5] = valid_game_input(26)
+    return game
 
 def getMatches(x, y):
     matches = {k: x[k] for k in x if k in y and x[k] == y[k]}
@@ -76,20 +77,41 @@ def checkSingle():
     matches = getMatches(winning_game, user_game)
     printWin(matches)
 
-def checkSheet():
-    # get path
-    # get lines
-    # for loop
-        # load game
-        # getMatches
-        # printWin
+def getPath():
+    fpath = input("Enter a file path:\n")
 
+    while not (os.path.isfile(fpath) or  fpath.endswith('.csv')):
+        print("Path or File does not exist.")
+        print("Please enter a path or file:\n")
+        fpath = input("Enter a file path:\n")
+
+    return fpath
+
+def getGames(fp):
+    games = []
+    try:
+        f = open(fp, "r")
+        for line in f:
+            line = line.rstrip()
+            gameList = list(map(int, line.split(",")))
+            a = gameList[0:5]
+            a.sort()
+            a.append(gameList[5])
+            gameDict = {i : a[i] for i in range(6)}
+            games.append(gameDict)
+    except IOerror:
+        print("Could not read .csv")
+    return games
+
+def checkSheet():
+    games = getGames(getPath())
+    for game in games[1:]:
+        printWin(getMatches(games[0], game))
+        
 if __name__ == "__main__":
     print("Check if you are a winner!\n")     
-    
     if query():
         checkSheet()
     else:
         checkSingle()
-
     exit()
