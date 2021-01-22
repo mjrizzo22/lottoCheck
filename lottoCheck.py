@@ -105,8 +105,9 @@ def getGames(fp):
 
 def checkSheet():
     games = getGames(getPath())
-    for game in games[1:]:
-        printWin(getMatches(games[0], game))
+    for i in range(1, (len(games) - 1)):
+        print("game ", i)
+        printWin(getMatches(games[0], games[i]))
         
 if __name__ == "__main__":
     print("Check if you are a winner!\n")     
